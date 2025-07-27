@@ -1,0 +1,23 @@
+<div class="container mt-4">
+
+    <?= $this->Breadcrumb([
+        ['label' => 'Início', 'href' => '/'],
+        ['label' => 'Veículos', 'href' => '/veiculos'],
+        ['label' => 'Detalhes do Veículo', 'active' => true],
+    ]) ?>
+    <div class="card shadow-sm">
+        <div class="card-header bg-secondary text-white">
+            <h4 class="mb-0">Dados do Veículo</h4>
+        </div>
+        <div class="card-body">
+            <div class="m-3">
+                <ul class="list-group list-group-flush">
+                    <li><strong>Modelo:</strong> <?= $veiculo->getModelo() ?></li>
+                    <li><strong>Placa:</strong> <?= $veiculo->getPlaca() ?></li>
+                    <li><strong>Renavam:</strong> <?= $veiculo->getRenavam() ?></li>
+                    <li><strong>Cadastrado em:</strong> <?= $veiculo->getCreatedAt()->format('d/m/Y') ?></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>

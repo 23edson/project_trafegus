@@ -1,0 +1,11 @@
+<?php
+$this->titulo   = 'Motoristas Cadastrados';
+$this->context = 'motoristas';
+$this->dados    = $motoristas;
+$this->botao    = $this->Botao('Novo Motorista', '/motoristas/create', 'btn btn-success', 'bi bi-plus');
+
+echo $this->Breadcrumb([
+    ['label' => 'Início', 'href' => '/'],
+    ['label' => 'Motoristas', 'href' => '/motoristas', 'active' => true],
+]);
+echo $this->partial('partials/generic_list.phtml');

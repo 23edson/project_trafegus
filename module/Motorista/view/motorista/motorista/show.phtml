@@ -1,0 +1,46 @@
+<div class="container mt-4">
+
+    <?= $this->Breadcrumb([
+        ['label' => 'Início', 'href' => '/'],
+        ['label' => 'Motoristas', 'href' => '/motoristas'],
+        ['label' => 'Detalhes do Motorista', 'active' => true],
+    ]) ?>
+    <div class="card shadow-sm">
+        <div class="card-header bg-secondary text-white">
+            <h4 class="mb-0">Dados do Motorista</h4>
+        </div>
+        <div class="card-body">
+            <div class="m-3">
+                <ul class="list-group list-group-flush">
+                    <li><strong>Nome:</strong> <?= $motorista->getNome() ?></li>
+                    <li><strong>CPF:</strong> <?= $motorista->getCpf() ?></li>
+                    <li><strong>Cadastrado em:</strong> <?= $motorista->getCreatedAt()->format('d/m/Y') ?></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="card shadow-sm mt-4">
+        <div class="card-header bg-secondary text-white">
+            <h5 class="mb-0">Lista de veículos associados a este motorista</h5>
+        </div>
+        <div class="card-body">
+            <div class="m-3">
+
+                <?php if (count($motorista->getVeiculos()) > 0): ?>
+                    <ul class="list-group list-group-flush">
+                        <?php foreach ($motorista->getVeiculos() as $veiculo): ?>
+                            <li>
+                                <?= $veiculo->getModelo() ?> - <?= $veiculo->getPlaca() ?>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php else: ?>
+                    <div class="alert alert-warning mb-0">
+                        Nenhum veículo associado.
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+
+</div>

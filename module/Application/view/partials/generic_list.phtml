@@ -1,0 +1,72 @@
+<?php
+$title     = $this->titulo ?? 'Itens';
+$botao     = $this->botao ?? null;
+$context   = $this->context ?? 'listagem-table';
+$dados     = $this->dados ?? [];
+$colunas   = $this->colunas ?? [];
+
+?>
+
+<h2><?= $title ?></h2>
+
+<?php if ($botao): ?>
+    <div class="mb-2 d-flex justify-content-end">
+        <?= $botao ?>
+    </div>
+<?php endif; ?>
+
+<!-- Tabela de Listagem -->
+<div id="tabela-<?= $context ?>"></div>
+
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="confirmDeleteLabel">Confirmar Exclusão</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                Tem certeza que deseja excluir este item?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Excluir</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Form para exclusao -->
+<form id="form-excluir-<?= $context ?>" method="POST" style="display: none;"></form>
+
+<link href="https://unpkg.com/tabulator-tables@5.4.4/dist/css/tabulator.min.css" rel="stylesheet">
+<script src="https://unpkg.com/tabulator-tables@5.4.4/dist/js/tabulator.min.js"></script>
+<script>
+    const dados = <?= json_encode($dados) ?>;
+    const colunas = <?= json_encode($colunas) ?>;
+    colunas.push({
+        title: 'Ações',
+        headerSort: false,
+        hozAlign: 'center',
+        formatter: function(cell) {
+            const id = cell.getRow().getData().id;
+            return `
+            <button class="btn btn-sm btn-primary btn-editar-<?= $context ?>" data-id="${id}">
+                <i class="fas fa-edit"></i>
+            </button>
+            <button class="btn btn-sm btn-danger btn-deletar-<?= $context ?>" data-id="${id}">
+                <i class="fas fa-trash-alt"></i>
+            </button>
+            <button class="btn btn-sm btn-info btn-ver-<?= $context ?>" data-id="${id}">
+                <i class="fas fa-eye"></i>
+            </button>
+        `;
+        }
+    });
+
+    window.list_tabulator = new Tabulator("#tabela-<?= $context ?>", {
+        data: dados,
+        layout: "fitColumns",
+        columns: colunas
+    });
+</script>

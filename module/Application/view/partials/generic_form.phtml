@@ -1,0 +1,75 @@
+<script>
+    $(document).ready(function() {
+        // controla componente select2
+        $('select.select2').each(function() {
+            const $select = $(this);
+            const placeholder = $select.data('placeholder') || 'Selecione uma opção';
+            const ajaxUrl = $select.data('url') || undefined
+            $select.select2({
+                placeholder: placeholder,
+                allowClear: true,
+                width: '100%',
+                ...ajaxUrl ? {
+                    ajax: {
+                        url: ajaxUrl,
+                        dataType: 'json',
+                        delay: 250,
+                        processResults: function(data) {
+                            return {
+                                results: data.map(item => ({
+                                    id: item.id,
+                                    text: item.nome
+                                }))
+                            };
+                        },
+                        cache: true
+                    }
+                } : {}
+
+
+            });
+
+            const selected = $select.data('selected');
+
+            //carregar os itens quando for um edit
+            if (selected && Array.isArray(selected)) {
+                selected.forEach(item => {
+                    const option = new Option(item.nome, item.id, true, true);
+                    $select.append(option).trigger('change');
+                });
+            }
+        });
+    });
+</script>
+<?php
+
+
+$form = $this->form; // assume que o $form foi passado
+
+echo $this->form()->openTag($form);
+
+echo '<div class="row g-3">';
+foreach ($form->getElements() as $element) {
+    echo '<div class="col-6 mb-3">';
+    if ($element->getLabel()) {
+        echo $this->formLabel($element);
+    }
+
+    // quando for um select passa os dados já selecionados
+    $dataSelected = $element->getAttribute('data-select');
+    if ($dataSelected) {
+        $element->setAttribute('data-selected', $dataSelected);
+    }
+    echo $this->formElement($element);
+    echo $this->formElementErrors($element);
+    echo '</div>';
+}
+
+echo '</div>'; // fecha a div.row
+echo '<div class="row">';
+echo '<div class="col-12 text-center">';
+echo $this->Botao('Salvar', '', 'btn btn-success', 'fas fa-save', true);
+echo '</div>';
+echo '</div>'; // fecha a div.row
+
+echo $this->form()->closeTag();

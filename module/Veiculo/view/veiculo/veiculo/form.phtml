@@ -1,0 +1,14 @@
+<h2 class="mb-4 text-primary">
+    <?= isset($this->id) ? 'Editar Veículo' : 'Adicionar Veículo' ?>
+</h2>
+
+<?php
+
+echo $this->Breadcrumb([
+    ['label' => 'Início', 'href' => '/'],
+    ['label' => 'Veículos', 'href' => '/veiculos'],
+    ['label' => isset($this->id) ? 'Editar Veículo' : 'Novo Veículo', 'active' => true],
+]);
+echo $this->partial('partials/generic_form.phtml', ['form' => $this->form,]);
+
+?>

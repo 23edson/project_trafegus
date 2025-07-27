@@ -1,0 +1,31 @@
+<script>
+    $(function() {
+        // remove flash messages após 3 segundos
+        $(document).ready(function() {
+            setTimeout(function() {
+                $(".alert").fadeTo(500, 0).slideUp(500, function() {
+                    $(this).remove();
+                });
+            }, 4000);
+        });
+    })
+</script>
+
+
+<?php if ($this->flashMessenger()->hasSuccessMessages()): ?>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <?php foreach ($this->flashMessenger()->getSuccessMessages() as $msg): ?>
+            <strong>Sucesso!</strong> <?= $this->escapeHtml($msg) ?>
+        <?php endforeach; ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+<?php endif; ?>
+
+<?php if ($this->flashMessenger()->hasErrorMessages()): ?>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <?php foreach ($this->flashMessenger()->getErrorMessages() as $msg): ?>
+            <strong>Erro!</strong> <?= $this->escapeHtml($msg) ?>
+        <?php endforeach; ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+<?php endif; ?>

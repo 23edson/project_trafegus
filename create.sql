@@ -31,4 +31,4 @@ CREATE TABLE motoristas_veiculos (
     foreign key (veiculo_id) references veiculos(id),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)
+);

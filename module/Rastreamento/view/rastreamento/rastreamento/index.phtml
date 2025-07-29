@@ -1,0 +1,41 @@
+<h2>Mapa dos Veículos</h2>
+
+<div id="map" style="height: 80vh; width: 100%;"></div>
+
+<script>
+    // Função para inicializar o mapa e adicionar os marcadores
+    function initMap() {
+        const motoristas = <?= json_encode($motoristas) ?>;
+        console.log(motoristas);
+        const centro = {
+            lat: -27.1006,
+            lng: -52.6152
+        }; // Chapecó
+
+        const map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 12,
+            center: centro,
+            mapId: '6ab6c0d93f9818a315876c41'
+        });
+
+        motoristas.forEach(item => {
+            const marker = new google.maps.marker.AdvancedMarkerElement({
+                position: {
+                    lat: item.posicao.lat,
+                    lng: item.posicao.long
+                },
+                map,
+                title: item.veiculo,
+            });
+
+            const infoWindow = new google.maps.InfoWindow({
+                content: `<strong>Placa:</strong> ${item.veiculo}<br><strong>Motorista:</strong> ${item.motorista}`
+            });
+
+            marker.addListener("click", () => infoWindow.open(map, marker));
+        });
+    }
+</script>
+
+<!-- chave temporária -->
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCrvc8h621yQ1B6eYpRDRYUE0kG3Rh39P0&callback=initMap&libraries=marker"></script>

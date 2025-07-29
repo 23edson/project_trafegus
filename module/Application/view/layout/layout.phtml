@@ -62,7 +62,7 @@
                         <a
                             class="nav-link active"
                             aria-current="page"
-                            href="<?= $this->url('home') ?>">Home
+                            href="<?= $this->url('home') ?>">Homepage
                         </a>
                     </li>
                 </ul>
@@ -82,9 +82,7 @@
     <?= $this->inlineScript()
         ->prependFile($this->basePath('js/bootstrap.min.js'))
         ->prependFile('https://unpkg.com/tabulator-tables@5.4.4/dist/js/tabulator.min.js')
-        ->prependFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js')
-        ->appendFile($this->basePath('js/veiculo.js'))
-        ->appendFile($this->basePath('js/motorista.js'))
+        ->prependFile('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js');
     ?>
 
 </body>

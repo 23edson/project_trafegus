@@ -19,3 +19,8 @@
 .card-custom {
     height: 200px !important;
 }
+
+.required::after {
+    content: " *";
+    color: red;
+}

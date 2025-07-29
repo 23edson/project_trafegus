@@ -1,6 +1,6 @@
 <?php
 
-namespace Motorista;
+namespace Rastreamento;
 
 use DoctrineORMModule\Options\EntityManager;
 use Laminas\ModuleManager\Feature\ConfigProviderInterface;
@@ -16,9 +16,9 @@ class Module implements ConfigProviderInterface
     {
         return [
             'factories' => [
-                Controller\MotoristaController::class => function ($container) {
+                Controller\RastreamentoController::class => function ($container) {
                     $entityManager = $container->get(EntityManager::class);
-                    return new Controller\MotoristaController($entityManager);
+                    return new Controller\RastreamentoController($entityManager);
                 },
             ],
         ];

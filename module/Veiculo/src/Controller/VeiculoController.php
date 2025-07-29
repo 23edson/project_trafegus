@@ -33,12 +33,12 @@ class VeiculoController extends AbstractActionController
                 'renavam' => $veiculo->getRenavam(),
             ];
         }
-        return new ViewModel(['veiculos' => $dadosVeiculos, 'colunas' => $repository->findAll()[0]->getTabulatorConfig()]);
+        return new ViewModel(['veiculos' => $dadosVeiculos, 'colunas' => Veiculo::getTabulatorConfig()]);
     }
 
+    // Método para listar veículos via api
     public function listarJsonAction()
     {
-
         $dados = [];
         try {
             $veiculos = $this->entityManager->getRepository(Veiculo::class)->findBy([], ['modelo' => 'ASC']);
@@ -62,8 +62,11 @@ class VeiculoController extends AbstractActionController
         $form = new VeiculoForm();
 
         try {
-            if ($this->getRequest()->isPost()) {
-                $data = $this->params()->fromPost();
+            /** @var \Laminas\Http\PhpEnvironment\Request $request */
+            $request = $this->getRequest();
+            if ($request->isPost()) {
+
+                $data = $request->getPost();
 
                 $form->setData($data);
                 if ($form->isValid()) {
@@ -101,9 +104,11 @@ class VeiculoController extends AbstractActionController
             $form = new VeiculoForm();
             $form->bind($veiculo);
 
-
-            if ($this->getRequest()->isPost()) {
-                $form->setData($this->params()->fromPost());
+            /** @var \Laminas\Http\PhpEnvironment\Request $request */
+            $request = $this->getRequest();
+            if ($request->isPost()) {
+                $data = $request->getPost();
+                $form->setData($data);
 
                 if ($form->isValid()) {
 
@@ -156,6 +161,7 @@ class VeiculoController extends AbstractActionController
     public function deleteAction()
     {
         try {
+
             $id = (int) $this->params()->fromRoute('id');
             $veiculo = $this->entityManager->find(Veiculo::class, $id);
 

@@ -24,4 +24,5 @@ return [
     'Application',
     'Veiculo',
     'Motorista',
+    'Rastreamento',
 ];

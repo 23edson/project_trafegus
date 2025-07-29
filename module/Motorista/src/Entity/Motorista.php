@@ -149,7 +149,7 @@ class Motorista
         ];
     }
 
-    public function getTabulatorConfig()
+    public static function getTabulatorConfig()
     {
         return [
 

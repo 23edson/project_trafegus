@@ -34,7 +34,8 @@
         "psr-4": {
             "Application\\": "module/Application/src/",
             "Veiculo\\": "module/Veiculo/src/",
-            "Motorista\\": "module/Motorista/src/"
+            "Motorista\\": "module/Motorista/src/",
+            "Rastreamento\\": "module/Rastreamento/src/"
         }
     },
     "autoload-dev": {

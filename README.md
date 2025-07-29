@@ -13,7 +13,7 @@
 
 #### 1. Executar composer install (na pasta src);
 
-#### 2. Criar base de dados no postgres (script disponível no arquivo 'create.sql');
+#### 2. Criar base de dados no postgres (script disponível no arquivo 'create.sql' na raiz do projeto);
     Credenciais utilizadas no projeto:
         'host' => 'localhost',
         'port'     => '5432',

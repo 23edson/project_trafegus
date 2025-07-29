@@ -3,6 +3,7 @@
         // controla componente select2
         $('select.select2').each(function() {
             const $select = $(this);
+
             const placeholder = $select.data('placeholder') || 'Selecione uma opção';
             const ajaxUrl = $select.data('url') || undefined
             $select.select2({
@@ -25,8 +26,10 @@
                         cache: true
                     }
                 } : {}
+            });
 
-
+            $select.each(function() {
+                $(this).data('select2').$container.addClass('form-control');
             });
 
             const selected = $select.data('selected');
@@ -68,7 +71,9 @@ foreach ($form->getElements() as $element) {
 echo '</div>'; // fecha a div.row
 echo '<div class="row">';
 echo '<div class="col-12 text-center">';
+echo '<div style="width:20%" class="btn-group">';
 echo $this->Botao('Salvar', '', 'btn btn-success', 'fas fa-save', true);
+echo '</div>'; // fecha a div.btn-group
 echo '</div>';
 echo '</div>'; // fecha a div.row
 

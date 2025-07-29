@@ -32,7 +32,7 @@ class MotoristaController extends AbstractActionController
             ];
         }
 
-        return new ViewModel(['motoristas' => $dadosMotoristas, 'colunas' => $repository->findAll()[0]->getTabulatorConfig()]);
+        return new ViewModel(['motoristas' => $dadosMotoristas, 'colunas' => Motorista::getTabulatorConfig()]);
     }
 
     public function createAction()
@@ -40,21 +40,13 @@ class MotoristaController extends AbstractActionController
         $form = new MotoristaForm();
 
         try {
-            if ($this->getRequest()->isPost()) {
-                $data = $this->params()->fromPost();
+            /** @var \Laminas\Http\PhpEnvironment\Request $request */
+            $request = $this->getRequest();
+            if ($request->isPost()) {
+                $data = $request->getPost();
 
-                $veiculosIds = $this->params()->fromPost('veiculos', []);
-
-                $options = [];
-                $veiculos = $this->entityManager->getRepository(Veiculo::class)->findBy([
-                    'id' => $veiculosIds
-                ]);
-                foreach ($veiculos as $veiculo) {
-                    $options[$veiculo->getId()] = $veiculo->getModelo();
-                }
-
-                $form->get('veiculos')->setValueOptions($options);
-
+                $veiculosIds = $data['veiculos'] ?? [];
+                $veiculos = $this->loadVeiculosSelectOptions($form, $veiculosIds);
                 $form->setData($data);
 
                 if ($form->isValid()) {
@@ -102,23 +94,19 @@ class MotoristaController extends AbstractActionController
 
             $form = new MotoristaForm();
             $form->bind($motorista);
+
+            // Preenche os veículos selecionados no formulário
             $form->get('veiculos')->setAttribute('data-selected', json_encode($veiculoSelecionados));
 
-            if ($this->getRequest()->isPost()) {
+            /** @var \Laminas\Http\PhpEnvironment\Request $request */
+            $request = $this->getRequest();
+            if ($request->isPost()) {
 
-                $postData = $this->params()->fromPost();
+                $data = $request->getPost();
+                $veiculosIds = $data['veiculos'] ?? [];
+                $veiculos = $this->loadVeiculosSelectOptions($form, $veiculosIds);
 
-                $options = [];
-                $veiculosIds = $postData['veiculos'] ?? [];
-                $veiculos = $this->entityManager->getRepository(Veiculo::class)->findBy([
-                    'id' => $veiculosIds
-                ]);
-                foreach ($veiculos as $veiculo) {
-                    $options[$veiculo->getId()] = $veiculo->getModelo();
-                }
-
-                $form->get('veiculos')->setValueOptions($options);
-                $form->setData($postData);
+                $form->setData($data);
 
                 if ($form->isValid()) {
 
@@ -164,7 +152,6 @@ class MotoristaController extends AbstractActionController
 
     public function showAction()
     {
-
         try {
 
             $id = (int) $this->params()->fromRoute('id');
@@ -209,5 +196,29 @@ class MotoristaController extends AbstractActionController
             }
         }
         return $this->redirect()->toRoute('motoristas', ['action' => 'index']);
+    }
+
+    private function loadVeiculosSelectOptions(MotoristaForm $form, $selectedVeiculos = [])
+    {
+
+        if (!is_array($selectedVeiculos)) {
+            return []; // Se não for um array, retorna vazio
+        }
+
+        if (!empty($selectedVeiculos)) {
+            $veiculos = $this->entityManager
+                ->getRepository(\Veiculo\Entity\Veiculo::class)
+                ->findBy(['id' => $selectedVeiculos]);
+
+            foreach ($veiculos as $veiculo) {
+                $options[$veiculo->getId()] = $veiculo->getModelo();
+            }
+
+            /** @var \Laminas\Form\Element\Select $select */
+            $select = $form->get('veiculos');
+            $select->setValueOptions($options);
+        }
+
+        return $veiculos;
     }
 }

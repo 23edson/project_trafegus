@@ -1,4 +1,6 @@
 <?php
+$this->headScript()->appendFile($this->basePath('js/motorista.js'));
+
 $this->titulo   = 'Motoristas Cadastrados';
 $this->context = 'motoristas';
 $this->dados    = $motoristas;

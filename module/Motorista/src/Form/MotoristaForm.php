@@ -7,6 +7,7 @@ use Laminas\Form\Form;
 use Laminas\Form\Element;
 use Laminas\Form\Element\Select;
 use Laminas\InputFilter\InputFilterProviderInterface;
+use Laminas\Validator\NotEmpty;
 
 class MotoristaForm extends Form implements InputFilterProviderInterface
 {
@@ -84,6 +85,42 @@ class MotoristaForm extends Form implements InputFilterProviderInterface
     public function getInputFilterSpecification()
     {
         return [
+            'nome' => [
+                'allow_empty' => false,
+                'required' => true,
+                'validators' => [
+                    ['name' => NotEmpty::class, 'options' => [
+                        'messages' => [
+                            NotEmpty::IS_EMPTY => 'O campo nome é obrigatório.',
+                        ],
+                    ]],
+                ],
+            ],
+            'cpf' => [
+                'validators' => [
+                    [
+                        'name' => NotEmpty::class,
+                        'options' => [
+                            'messages' => [
+                                NotEmpty::IS_EMPTY => 'O campo CPF é obrigatório.',
+                            ]
+                        ],
+                    ],
+                ],
+            ],
+            'rg' => [
+                'allow_empty' => false,
+                'validators' => [
+                    [
+                        'name' => NotEmpty::class,
+                        'options' => [
+                            'messages' => [
+                                NotEmpty::IS_EMPTY => 'O campo RG é obrigatório.',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
             'veiculos' => [
                 'required' => false,
                 'allow_empty' => true,

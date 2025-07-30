@@ -15,8 +15,8 @@ CREATE TABLE IF NOT EXISTS veiculos (
 CREATE TABLE motoristas (
     id SERIAL PRIMARY KEY,
     nome varchar(200) not null,
-    rg varchar(20) not null unique,
-    cpf varchar(11) not null unique,
+    rg varchar(20),
+    cpf varchar(11),
     telefone varchar(20),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP

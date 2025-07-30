@@ -4,8 +4,9 @@ namespace Veiculo\Form;
 
 use Laminas\Form\Form;
 use Laminas\Form\Element;
+use Laminas\Validator\NotEmpty;
 
-class VeiculoForm extends Form
+class VeiculoForm extends Form implements \Laminas\InputFilter\InputFilterProviderInterface
 {
     public function __construct()
     {
@@ -77,5 +78,78 @@ class VeiculoForm extends Form
                 $veiculo->$setter($value);
             }
         }
+    }
+
+    public function getInputFilterSpecification()
+    {
+        return [
+            'placa' => [
+                'allow_empty' => false,
+                'required' => true,
+                'validators' => [
+                    ['name' => NotEmpty::class, 'options' => [
+                        'messages' => [
+                            NotEmpty::IS_EMPTY => 'O campo placa é obrigatório.',
+                        ],
+                    ]],
+                ],
+            ],
+            'modelo' => [
+                'allow_empty' => false,
+                'required' => true,
+                'validators' => [
+                    ['name' => NotEmpty::class, 'options' => [
+                        'messages' => [
+                            NotEmpty::IS_EMPTY => 'O campo modelo é obrigatório.',
+                        ],
+                    ]],
+                ],
+            ],
+            'marca' => [
+                'allow_empty' => false,
+                'required' => true,
+                'validators' => [
+                    ['name' => NotEmpty::class, 'options' => [
+                        'messages' => [
+                            NotEmpty::IS_EMPTY => 'O campo marca é obrigatório.',
+                        ],
+                    ]],
+                ],
+            ],
+            'ano' => [
+                'required' => true,
+                'allow_empty' => false,
+                'continue_if_empty' => false,
+                'validators' => [
+                    [
+                        'name' => \Laminas\Validator\NotEmpty::class,
+                        'options' => [
+                            'messages' => [
+                                \Laminas\Validator\NotEmpty::IS_EMPTY => 'O campo ano é obrigatório.',
+                            ],
+                        ],
+                    ],
+                    [
+                        'name' => \Laminas\Validator\Digits::class,
+                        'options' => [
+                            'messages' => [
+                                \Laminas\Validator\Digits::NOT_DIGITS => 'Informe apenas números.',
+                            ]
+                        ]
+                    ],
+                ],
+            ],
+            'cor' => [
+                'allow_empty' => false,
+                'required' => true,
+                'validators' => [
+                    ['name' => NotEmpty::class, 'options' => [
+                        'messages' => [
+                            NotEmpty::IS_EMPTY => 'O campo cor é obrigatório.',
+                        ],
+                    ]],
+                ],
+            ],
+        ];
     }
 }

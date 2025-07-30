@@ -22,5 +22,8 @@
         'dbname'   => 'motoristas_database',
         'charset'  => 'utf8',
 
+### 3. Executar os testes
+    ./vendor/bin/phpunit
+
 
 

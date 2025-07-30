@@ -84,6 +84,7 @@ class MotoristaController extends AbstractActionController
 
             $motorista = $this->entityManager->find(Motorista::class, $id);
 
+
             $veiculoSelecionados = [];
             foreach ($motorista->getVeiculos() as $veiculo) {
                 $veiculoSelecionados[] = [
@@ -200,6 +201,8 @@ class MotoristaController extends AbstractActionController
 
     private function loadVeiculosSelectOptions(MotoristaForm $form, $selectedVeiculos = [])
     {
+        $options = [];
+        $veiculos = [];
 
         if (!is_array($selectedVeiculos)) {
             return []; // Se não for um array, retorna vazio
